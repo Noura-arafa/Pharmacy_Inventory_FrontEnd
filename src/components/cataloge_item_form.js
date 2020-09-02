@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
+// import { Redirect } from 'react-router-dom';
+
 class ItemForm extends React.Component {
     constructor(props) {
         super(props);
@@ -9,19 +11,31 @@ class ItemForm extends React.Component {
         this.state = {
             name: '',
             price: '',
-            description: ''
+            description: '',
+            type_id: '',
+            types: []
         };
+        this.drugTypes = [];
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    /*componentDidMount() {
-        axios.get('http://127.0.0.1:8000/store/drug_types/')
+    componentWillMount() {
+        const access_token = localStorage.getItem('token');
+        axios.get('http://127.0.0.1:8000/store/drug_types/', {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            },
+        })
             .then(response => {
                 this.setState({types: response.data})
+                // response.data.map((type) => this.drugTypes.push(type));
+                // this.drugTypes.map((type) => console.log(type.type));
+                console.log('types ', this.state.types)
             }).catch(error => console.log(error))
-    }*/
+    }
 
     handleChange(event) {
         this.setState({[event.target.name]: event.target.value});
@@ -29,13 +43,19 @@ class ItemForm extends React.Component {
     }
 
     handleSubmit(event) {
-        const access_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTk5MjM1NTc3LCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNTk5MDU1NTc3fQ.4mhYDGN6smwGTVG7qeix_fqwIxworZ30sBvs1AqZEjQ';
+        const access_token = localStorage.getItem('token');
+        const data = {
+            name: this.state.name,
+            price: this.state.price,
+            description: this.state.description,
+            type_id: this.state.type_id
+        }
         event.preventDefault();
-        console.log('A name was submitted: ' + this.state.name);
+        console.log('A name was submitted: ' + this.data);
         axios.post('http://127.0.0.1:8000/store/catalog_item/',
-            this.state, {
+            data, {
                 headers: {
-                    'Accept' : 'application/json',
+                    'Accept': 'application/json',
                     'Authorization': `Bearer ${access_token}`
                 },
             })
@@ -49,8 +69,11 @@ class ItemForm extends React.Component {
 
     render() {
         const {name, price, description} = this.state;
+        /* if(!localStorage.getItem('token')){
+             return <Redirect to="/login" />
+         }*/
         return (
-            <div className="container mt-4">
+            <div className="container mt-4" id="item-form">
                 <div className="card shadow p-3 mb-5 bg-white rounded">
                     <div className="card-body">
                         <h2 className="card-title mb-4">Add Catalog Item</h2>
@@ -61,7 +84,7 @@ class ItemForm extends React.Component {
                                 <label className="col-4" htmlFor="name">Drug Name:</label>
                                 <input type="text" className="form-control col-8" id="name"
                                        name="name" defaultValue={name} onChange={this.handleChange}
-                                       placeholder="Enter Drug Name"/>
+                                       placeholder="Enter Drug Name" required/>
                             </div>
 
                             {/* Item Price */}
@@ -81,6 +104,16 @@ class ItemForm extends React.Component {
                             </div>
 
                             {/* Drug Type */}
+                            <div className="form-group row">
+                                <label className="col-4" htmlFor="price">Drug Type:</label>
+                                <select className="form-control col-8"
+                                        value={this.state.type_id}
+                                        name="type_id" onChange={this.handleChange}>
+                                    {this.state.types.map((type) =>
+                                        <option value={type.id}
+                                                >{type.type}</option>)}
+                                </select>
+                            </div>
 
                             {/*Submit button */}
                             <div className="row float-right">
