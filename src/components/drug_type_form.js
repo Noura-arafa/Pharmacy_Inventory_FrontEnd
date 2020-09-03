@@ -36,9 +36,11 @@ class DrugTypeForm extends React.Component {
             })
             .then(response => {
                 console.log(response)
+                alert('Created Success')
             })
             .catch(error => {
                 console.log(error)
+                alert(error)
             })
     }
 

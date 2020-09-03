@@ -52,6 +52,7 @@ class Transaction extends Component {
             })
             .then(response => {
                 console.log(response)
+                alert(response.data==='out of stock'? response.data : 'Success')
             })
             .catch(error => {
                 console.log(error)
