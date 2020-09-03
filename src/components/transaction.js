@@ -2,35 +2,32 @@ import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
-// import { Redirect } from 'react-router-dom';
 
-class ItemForm extends React.Component {
+class Transaction extends Component {
     constructor(props) {
         super(props);
-        // this.state = {types: []};
         this.state = {
-            name: '',
-            price: '',
-            description: '',
-            type_id: '',
-            types: []
-        };
-
+            quantity: '',
+            item_id: '',
+            transaction_type: '',
+            items: []
+        }
+        console.log('idddd ', props.match.params.id);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillMount() {
         const access_token = localStorage.getItem('token');
-        axios.get('http://127.0.0.1:8000/store/drug_types/', {
+        axios.get('http://127.0.0.1:8000/store/catalog_item/', {
             headers: {
                 'Accept': 'application/json',
                 'Authorization': `Bearer ${access_token}`
             },
         })
             .then(response => {
-                this.setState({types: response.data})
-                console.log('types ', this.state.types)
+                this.setState({items: response.data})
+                console.log('items ', this.state.items)
             }).catch(error => console.log(error))
     }
 
@@ -42,14 +39,13 @@ class ItemForm extends React.Component {
     handleSubmit(event) {
         const access_token = localStorage.getItem('token');
         const data = {
-            name: this.state.name,
-            price: this.state.price,
-            description: this.state.description,
-            type_id: this.state.type_id
+            quantity: this.state.quantity,
+            transaction_type: this.state.transaction_type,
+            item_id: this.state.item_id,
         }
         event.preventDefault();
         console.log('A name was submitted: ' + this.data);
-        axios.post('http://127.0.0.1:8000/store/catalog_item/',
+        axios.post('http://127.0.0.1:8000/store/transaction/',
             data, {
                 headers: {
                     'Accept': 'application/json',
@@ -65,7 +61,7 @@ class ItemForm extends React.Component {
     }
 
     render() {
-        const {name, price, description} = this.state;
+        const {quantity, transaction_type, item_id} = this.state;
         /* if(!localStorage.getItem('token')){
              return <Redirect to="/login" />
          }*/
@@ -76,40 +72,37 @@ class ItemForm extends React.Component {
                         <h2 className="card-title mb-4">Add Catalog Item</h2>
                         <form onSubmit={this.handleSubmit}>
 
-                            {/*Item Name*/}
+                            {/*quantity*/}
                             <div className="form-group row">
-                                <label className="col-4" htmlFor="name">Drug Name:</label>
-                                <input type="text" className="form-control col-8" id="name"
-                                       name="name" defaultValue={name} onChange={this.handleChange}
-                                       placeholder="Enter Drug Name" required/>
+                                <label className="col-4" htmlFor="quantity">Quantity:</label>
+                                <input type="number" min="0" className="form-control col-8" id="quantity"
+                                       name="quantity" defaultValue={quantity} onChange={this.handleChange}
+                                       placeholder="Enter Quantity" required/>
                             </div>
 
-                            {/* Item Price */}
+                            {/* Items */}
                             <div className="form-group row">
-                                <label className="col-4" htmlFor="price">Drug Price:</label>
-                                <input type="number" min="0" className="form-control col-8" id="price"
-                                       name="price" defaultValue={price} onChange={this.handleChange}
-                                       placeholder="Enter Drug Price"/>
+                                <label className="col-4" htmlFor="item">Items:</label>
+                                <select className="form-control col-8" id="item"
+                                        value={this.state.item_id}
+                                        name="item_id" onChange={this.handleChange}>
+                                    <option value="">-------------</option>
+                                    {this.state.items.map((item) =>
+                                        <option value={item.id} key={item.id}
+                                        >{item.name}</option>)}
+                                </select>
                             </div>
 
-                            {/* Item description */}
+                            {/* transaction types */}
                             <div className="form-group row">
-                                <label className="col-4" htmlFor="description">Description:</label>
-                                <input type="text" className="form-control col-8" id="description"
-                                       name="description" defaultValue={description} onChange={this.handleChange}
-                                       placeholder="Enter Drug Description"/>
-                            </div>
-
-                            {/* Drug Type */}
-                            <div className="form-group row">
-                                <label className="col-4" htmlFor="price">Drug Type:</label>
-                                <select className="form-control col-8"
-                                        value={this.state.type_id}
-                                        name="type_id" onChange={this.handleChange}>
+                                <label className="col-4" htmlFor="transaction_type">Transaction Type:</label>
+                                <select className="form-control col-8" id="transaction_type"
+                                        value={this.state.transaction_type}
+                                        name="transaction_type" onChange={this.handleChange}>
                                     <option value="">-------</option>
-                                    {this.state.types.map((type) =>
-                                        <option value={type.id}
-                                                >{type.type}</option>)}
+                                    <option value="1">Positive</option>
+                                    <option value="0">Negative</option>
+
                                 </select>
                             </div>
 
@@ -132,4 +125,4 @@ class ItemForm extends React.Component {
     }
 }
 
-export default ItemForm;
+export default Transaction;

@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ItemForm from './components/cataloge_item_form';
@@ -14,6 +13,10 @@ import {
 } from "react-router-dom";
 
 import LoginForm from "./components/login_form";
+import Transaction from "./components/transaction";
+import ItemTable from "./components/item_table";
+import Nav from "./components/nav";
+import ItemDetails from "./components/item_detail";
 
 function App() {
     // localStorage.removeItem('token');
@@ -21,25 +24,21 @@ function App() {
         return (<LoginForm/>)
     }
     return (
-        <div className="App">
-           {/* <Router>
+        <Router>
+            <div className="App">
                 <div>
-                    <header className="App-header">
-                        <Link to="/item">Item</Link>
-                    </header>
-
-                    <Switch>
-                        <Route path="/item">
-                            <ItemForm/>
-                        </Route>
-
-                    </Switch>
+                    <Nav />
+                    <Route exact path="/item" component={ItemForm}/>
+                    <Route exact path="/login" component={LoginForm}/>
+                    <Route exact path="/transaction/:id" component={Transaction}/>
+                    <Route exact path="/items" component={ItemTable}/>
+                    <Route exact path="/item/:id" component={ItemDetails}/>
                 </div>
-            </Router>*/}
-            <ItemForm/>
+                {/*<ItemForm/>*/}
 
+            </div>
+        </Router>
 
-        </div>
     );
 }
 
