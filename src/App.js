@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ItemForm from './components/cataloge_item_form';
-import Routes from './routes';
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -19,16 +19,18 @@ import Nav from "./components/nav";
 import ItemDetails from "./components/item_detail";
 
 function App() {
-    // localStorage.removeItem('token');
+    localStorage.removeItem('token');
+    /*localStorage.removeItem('token');
     if (!localStorage.getItem('token')) {
-        return (<LoginForm/>)
-    }
+        return (<Router><LoginForm/></Router>)
+    }*/
     return (
         <Router>
             <div className="App">
                 <div>
-                    <Nav />
+                    <Nav/>
                     <Route exact path="/item" component={ItemForm}/>
+                    <Route exact path="/" component={LoginForm}/>
                     <Route exact path="/login" component={LoginForm}/>
                     <Route exact path="/transaction/:id" component={Transaction}/>
                     <Route exact path="/items" component={ItemTable}/>

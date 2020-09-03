@@ -36,7 +36,7 @@ class ItemTable extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.items.map((item) => <tr>
+                    {this.state.items.map((item) => <tr key={item.id}>
                         <td><Link to={`/item/${item.id}`}>{item.name}</Link></td>
                         <td>{item.price}</td>
                         <td>{item.type.type}</td>

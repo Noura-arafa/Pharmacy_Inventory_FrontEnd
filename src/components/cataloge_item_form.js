@@ -108,7 +108,7 @@ class ItemForm extends React.Component {
                                         name="type_id" onChange={this.handleChange}>
                                     <option value="">-------</option>
                                     {this.state.types.map((type) =>
-                                        <option value={type.id}
+                                        <option value={type.id} key={type.id}
                                                 >{type.type}</option>)}
                                 </select>
                             </div>
