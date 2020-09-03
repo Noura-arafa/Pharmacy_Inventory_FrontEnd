@@ -10,30 +10,28 @@ class Transaction extends Component {
             quantity: '',
             item_id: '',
             transaction_type: '',
-            items: []
+            item: ''
         }
-        console.log('idddd ', props.match.params.id);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillMount() {
         const access_token = localStorage.getItem('token');
-        axios.get('http://127.0.0.1:8000/store/catalog_item/', {
+        axios.get(`http://127.0.0.1:8000/store/catalog_item/${this.props.match.params.id}/`, {
             headers: {
                 'Accept': 'application/json',
                 'Authorization': `Bearer ${access_token}`
             },
         })
             .then(response => {
-                this.setState({items: response.data})
+                this.setState({item: response.data, item_id: response.data.id})
                 console.log('items ', this.state.items)
             }).catch(error => console.log(error))
     }
 
     handleChange(event) {
         this.setState({[event.target.name]: event.target.value});
-        console.log(this.state);
     }
 
     handleSubmit(event) {
@@ -83,14 +81,16 @@ class Transaction extends Component {
                             {/* Items */}
                             <div className="form-group row">
                                 <label className="col-4" htmlFor="item">Items:</label>
-                                <select className="form-control col-8" id="item"
+                                <input type="text" className="form-control col-8" id="item"
+                                       value={this.state.item.name}/>
+                               {/* <select className="form-control col-8" id="item"
                                         value={this.state.item_id}
                                         name="item_id" onChange={this.handleChange}>
                                     <option value="">-------------</option>
                                     {this.state.items.map((item) =>
                                         <option value={item.id} key={item.id}
                                         >{item.name}</option>)}
-                                </select>
+                                </select>*/}
                             </div>
 
                             {/* transaction types */}

@@ -10,7 +10,7 @@ function Nav() {
         <header className="App-header mb-4">
             <div className="row">
                 <div className="col"><Link style={navStyle} to="/item">Item</Link></div>
-                <div className="col"><Link style={navStyle} to="/transaction">Transaction</Link></div>
+                {/*<div className="col"><Link style={navStyle} to="/transaction">Transaction</Link></div>*/}
                 <div className="col"><Link style={navStyle} to="/items">All Items</Link></div>
             </div>
 
