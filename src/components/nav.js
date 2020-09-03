@@ -12,6 +12,7 @@ function Nav() {
             <div className="row">
                 <div className="col"><Link style={navStyle} to="/item">Item</Link></div>
                 <div className="col"><Link style={navStyle} to="/type">Drug Type</Link></div>
+                <div className="col"><Link style={navStyle} to="/transactions">Transactions</Link></div>
                 {/*<div className="col"><Link style={navStyle} to="/transaction">Transaction</Link></div>*/}
                 <div className="col"><Link style={navStyle} to="/items">All Items</Link></div>
                 <div className="col"><Link style={navStyle} to="/login">Login</Link></div>
