@@ -32,6 +32,7 @@ class LoginForm extends Component {
             })
             .catch(error => {
                 console.log(error)
+                alert('Wrong in username or password')
             });
     }
 
