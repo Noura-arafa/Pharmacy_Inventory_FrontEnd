@@ -5,7 +5,6 @@ import ItemForm from './components/cataloge_item_form';
 
 import {
     BrowserRouter as Router,
-    Switch,
     Route,
     Link,
     useRouteMatch,
@@ -17,9 +16,10 @@ import Transaction from "./components/transaction";
 import ItemTable from "./components/item_table";
 import Nav from "./components/nav";
 import ItemDetails from "./components/item_detail";
+import DrugTypeForm from "./components/drug_type_form";
 
 function App() {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
     /*localStorage.removeItem('token');
     if (!localStorage.getItem('token')) {
         return (<Router><LoginForm/></Router>)
@@ -34,6 +34,7 @@ function App() {
                     <Route exact path="/login" component={LoginForm}/>
                     <Route exact path="/transaction/:id" component={Transaction}/>
                     <Route exact path="/items" component={ItemTable}/>
+                    <Route exact path="/type" component={DrugTypeForm}/>
                     <Route exact path="/item/:id" component={ItemDetails}/>
                 </div>
                 {/*<ItemForm/>*/}
